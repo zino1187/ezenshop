@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="admin.domain.Admin">
+  <!-- 이 파일은 프로그래밍 파일이 아닌 전자문서이므로 
+  쿼리문은 태그에 기재한다..-->
+  
+  <select id="select" parameterType="admin.domain.Admin" resultType="admin.domain.Admin">
+	select * from admin where id=#{id} and pass=#{pass}
+  </select>
+
+  
+</mapper>
+
+
+
+
+

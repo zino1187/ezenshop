@@ -1,0 +1,396 @@
+SQL> --상위 카테고리
+SQL> create  table  topcategory(
+  2  topcategory_id number primary key
+  3  , name varchar2(30)
+  4  );
+
+Table created.
+
+SQL> --하위 카테고리
+SQL> create  table subcategory(
+  2  subcategory_id number
+  3  , primary key(subcategory_id)
+  4  , topcategory_id number
+  5  , foreign key(topcategory_id) references topcategory(topcategory_id)
+  6  , name varchar2(30)
+  7  );
+
+Table created.
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  create  table  product(
+  2     product_id  number   primary key
+  3   , subcategory_id number 
+  4   , foreign key(subcategory_id)  references  subcategory(subcategory_id)
+  5   , product_name varchar2(100)	
+  6   , price number  default 0
+  7   , color  varchar2(100)	
+  8   , brand varchar2(40)	
+  9   , orgin  varchar2(50)
+ 10   , filename  varchar2(30)
+ 11* )
+SQL> /
+
+Table created.
+
+SQL> --상위와 하위 카테고리 데이터 넣기
+SQL> --시퀀스 먼저 만들자
+SQL> ed
+Wrote file afiedt.buf
+
+  1  create  sequence  seq_topcategory
+  2  increment  by 1
+  3* start  with 1
+SQL> 
+SQL> /
+
+Sequence created.
+
+SQL> create  sequence  seq_subcategory
+  2  increment  by 1
+  3  start  with 1;
+
+Sequence created.
+
+SQL> create  sequence  seq_product
+  2  increment  by 1
+  3  start  with 1;
+
+Sequence created.
+
+SQL> insert into topcategory(topcategory_id, name) values(seq_topcategory.nextval, '상의');
+
+1 row created.
+
+SQL> insert into topcategory(topcategory_id, name) values(seq_topcategory.nextval, '하의');
+
+1 row created.
+
+SQL> insert into topcategory(topcategory_id, name) values(seq_topcategory.nextval, '엑세서리');
+
+1 row created.
+
+SQL> insert into topcategory(topcategory_id, name) values(seq_topcategory.nextval, '신발');
+
+1 row created.
+
+SQL> insert into topcategory(topcategory_id, name) values(seq_topcategory.nextval, '모자');
+
+1 row created.
+
+SQL> commit;
+
+Commit complete.
+
+SQL> select * from topcategory;
+
+TOPCATEGORY_ID NAME                                                             
+-------------- ------------------------------------------------------------     
+             1 상의                                                             
+             2 하의                                                             
+             3 엑세서리                                                         
+             4 신발                                                             
+             5 모자                                                             
+
+SQL> insert into subcategory(subcategory_id, topcategory_id, name)
+  2  values(seq_subcategory.nextval, 1, '가디건');
+
+1 row created.
+
+SQL> 
+SQL> insert into subcategory(subcategory_id, topcategory_id, name)
+  2  values(seq_subcategory.nextval, 1, '니트');
+
+1 row created.
+
+SQL> 
+SQL> insert into subcategory(subcategory_id, topcategory_id, name)
+  2  values(seq_subcategory.nextval, 1, '셔츠');
+
+1 row created.
+
+SQL> 
+SQL> insert into subcategory(subcategory_id, topcategory_id, name)
+  2  values(seq_subcategory.nextval, 1, '점퍼');
+
+1 row created.
+
+SQL> insert into subcategory(subcategory_id, topcategory_id, name)
+  2  values(seq_subcategory.nextval, 2, '청바지');
+
+1 row created.
+
+SQL> 
+SQL> insert into subcategory(subcategory_id, topcategory_id, name)
+  2  values(seq_subcategory.nextval, 2, '반바지');
+
+1 row created.
+
+SQL> 
+SQL> insert into subcategory(subcategory_id, topcategory_id, name)
+  2  values(seq_subcategory.nextval, 2, '면바지');
+
+1 row created.
+
+SQL> 
+SQL> insert into subcategory(subcategory_id, topcategory_id, name)
+  2  values(seq_subcategory.nextval, 2, '츄리닝');
+
+1 row created.
+
+SQL> select * from topcategory;
+
+TOPCATEGORY_ID NAME                                                             
+-------------- ------------------------------------------------------------     
+             1 상의                                                             
+             2 하의                                                             
+             3 엑세서리                                                         
+             4 신발                                                             
+             5 모자                                                             
+
+SQL> insert into subcategory(subcategory_id, topcategory_id, name)
+  2  values(seq_subcategory.nextval, 3, '귀걸이');
+
+1 row created.
+
+SQL> 
+SQL> insert into subcategory(subcategory_id, topcategory_id, name)
+  2  values(seq_subcategory.nextval, 3, '목걸이');
+
+1 row created.
+
+SQL> 
+SQL> insert into subcategory(subcategory_id, topcategory_id, name)
+  2  values(seq_subcategory.nextval, 3, '팔찌');
+
+1 row created.
+
+SQL> 
+SQL> insert into subcategory(subcategory_id, topcategory_id, name)
+  2  values(seq_subcategory.nextval, 3, '시계');
+
+1 row created.
+
+SQL> insert into subcategory(subcategory_id, topcategory_id, name)
+  2  values(seq_subcategory.nextval, 4, '운동화');
+
+1 row created.
+
+SQL> 
+SQL> insert into subcategory(subcategory_id, topcategory_id, name)
+  2  values(seq_subcategory.nextval, 4, '구두');
+
+1 row created.
+
+SQL> 
+SQL> insert into subcategory(subcategory_id, topcategory_id, name)
+  2  values(seq_subcategory.nextval, 4, '샌들');
+
+1 row created.
+
+SQL> 
+SQL> insert into subcategory(subcategory_id, topcategory_id, name)
+  2  values(seq_subcategory.nextval, 4, '슬리퍼');
+
+1 row created.
+
+SQL> insert into subcategory(subcategory_id, topcategory_id, name)
+  2  values(seq_subcategory.nextval, 5, '중절모');
+
+1 row created.
+
+SQL> 
+SQL> insert into subcategory(subcategory_id, topcategory_id, name)
+  2  values(seq_subcategory.nextval, 5, '캡모자');
+
+1 row created.
+
+SQL> 
+SQL> insert into subcategory(subcategory_id, topcategory_id, name)
+  2  values(seq_subcategory.nextval, 5, '비니');
+
+1 row created.
+
+SQL> 
+SQL> insert into subcategory(subcategory_id, topcategory_id, name)
+  2  values(seq_subcategory.nextval, 5, '스냅백');
+
+1 row created.
+
+SQL> commit;
+
+Commit complete.
+
+SQL> select * from subcategory;
+
+SUBCATEGORY_ID TOPCATEGORY_ID                                                   
+-------------- --------------                                                   
+NAME                                                                            
+------------------------------------------------------------                    
+             1              1                                                   
+가디건                                                                          
+                                                                                
+             2              1                                                   
+니트                                                                            
+                                                                                
+             3              1                                                   
+셔츠                                                                            
+                                                                                
+
+SUBCATEGORY_ID TOPCATEGORY_ID                                                   
+-------------- --------------                                                   
+NAME                                                                            
+------------------------------------------------------------                    
+             4              1                                                   
+점퍼                                                                            
+                                                                                
+             5              2                                                   
+청바지                                                                          
+                                                                                
+             6              2                                                   
+반바지                                                                          
+                                                                                
+
+SUBCATEGORY_ID TOPCATEGORY_ID                                                   
+-------------- --------------                                                   
+NAME                                                                            
+------------------------------------------------------------                    
+             7              2                                                   
+면바지                                                                          
+                                                                                
+             8              2                                                   
+츄리닝                                                                          
+                                                                                
+             9              3                                                   
+귀걸이                                                                          
+                                                                                
+
+SUBCATEGORY_ID TOPCATEGORY_ID                                                   
+-------------- --------------                                                   
+NAME                                                                            
+------------------------------------------------------------                    
+            10              3                                                   
+목걸이                                                                          
+                                                                                
+            11              3                                                   
+팔찌                                                                            
+                                                                                
+            12              3                                                   
+시계                                                                            
+                                                                                
+
+SUBCATEGORY_ID TOPCATEGORY_ID                                                   
+-------------- --------------                                                   
+NAME                                                                            
+------------------------------------------------------------                    
+            13              4                                                   
+운동화                                                                          
+                                                                                
+            14              4                                                   
+구두                                                                            
+                                                                                
+            15              4                                                   
+샌들                                                                            
+                                                                                
+
+SUBCATEGORY_ID TOPCATEGORY_ID                                                   
+-------------- --------------                                                   
+NAME                                                                            
+------------------------------------------------------------                    
+            16              4                                                   
+슬리퍼                                                                          
+                                                                                
+            17              5                                                   
+중절모                                                                          
+                                                                                
+            18              5                                                   
+캡모자                                                                          
+                                                                                
+
+SUBCATEGORY_ID TOPCATEGORY_ID                                                   
+-------------- --------------                                                   
+NAME                                                                            
+------------------------------------------------------------                    
+            19              5                                                   
+비니                                                                            
+                                                                                
+            20              5                                                   
+스냅백                                                                          
+                                                                                
+
+20 rows selected.
+
+SQL> set line 200
+SQL> /
+
+SUBCATEGORY_ID TOPCATEGORY_ID NAME                                                                                                                                                                      
+-------------- -------------- ------------------------------------------------------------                                                                                                              
+             1              1 가디건                                                                                                                                                                    
+             2              1 니트                                                                                                                                                                      
+             3              1 셔츠                                                                                                                                                                      
+             4              1 점퍼                                                                                                                                                                      
+             5              2 청바지                                                                                                                                                                    
+             6              2 반바지                                                                                                                                                                    
+             7              2 면바지                                                                                                                                                                    
+             8              2 츄리닝                                                                                                                                                                    
+             9              3 귀걸이                                                                                                                                                                    
+            10              3 목걸이                                                                                                                                                                    
+            11              3 팔찌                                                                                                                                                                      
+
+SUBCATEGORY_ID TOPCATEGORY_ID NAME                                                                                                                                                                      
+-------------- -------------- ------------------------------------------------------------                                                                                                              
+            12              3 시계                                                                                                                                                                      
+            13              4 운동화                                                                                                                                                                    
+            14              4 구두                                                                                                                                                                      
+            15              4 샌들                                                                                                                                                                      
+            16              4 슬리퍼                                                                                                                                                                    
+            17              5 중절모                                                                                                                                                                    
+            18              5 캡모자                                                                                                                                                                    
+            19              5 비니                                                                                                                                                                      
+            20              5 스냅백                                                                                                                                                                    
+
+20 rows selected.
+
+SQL> spool off
+
+관리자 테이블 
+create  table  admin(
+     admin_id  number  primary key 
+   , id  varchar2(20)
+   , pass  varchar2(20)
+   , name varchar2(30)
+);
+
+create  sequence  seq_admin
+increment by 1
+start with 1;
+
+insert into admin(admin_id, id, pass, name)
+values(seq_admin.nextval,'shop','1234','지노');
+
+commit;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
