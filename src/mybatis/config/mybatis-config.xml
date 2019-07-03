@@ -3,6 +3,11 @@
   PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
+	<typeAliases>
+		<typeAlias type="product.domain.TopCategory" alias="TopCategory"/>
+		<typeAlias type="product.domain.SubCategory" alias="SubCategory"/>
+	</typeAliases>
+		
   <environments default="development">
     <environment id="development">
       <transactionManager type="JDBC"/>
@@ -13,6 +18,8 @@
   </environments>
   <mappers>
     <mapper resource="mybatis/mapper/AdminMapper.xml"/>
+    <mapper resource="mybatis/mapper/TopCategoryMapper.xml"/>
+    <mapper resource="mybatis/mapper/SubCategoryMapper.xml"/>
   </mappers>
 </configuration>
 

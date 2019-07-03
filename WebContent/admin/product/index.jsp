@@ -37,11 +37,21 @@ body {
 			<td>Johnson</td>
 			<td>67</td>
 		</tr>
+		<tr>
+			<td colspan="3">
+				<button onClick="location.href='registform.jsp'">상품등록</button>
+			</td>
+		</tr>
+		
 	</table>
 
 
 </body>
 </html>
+
+
+
+
 
 
 

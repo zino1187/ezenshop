@@ -373,6 +373,24 @@ values(seq_admin.nextval,'shop','1234','지노');
 commit;
 
 
+--상품 테이블 
+create  table  product(
+	product_id number primary key
+	, subcategory_id  number
+	, foreign key (subcategory_id)  references subcategory(subcategory_id)  
+	, product_name   varchar2(100)
+	, brand  varchar2(50)
+	, price  number  default 0
+	, color  varchar2(100)
+	, psize  varchar2(50)
+	, filename  varchar2(40)
+	, content  clob 
+);
+--현재 계정이 보유한 테이블, 스퀀스 ( 시스템 테이블 조회 == 딕셔너리)
+--딕셔너리는 그 수가 너무 많으므로, 다 외울수 없다..
+--명명규칙  : 접속계정이 일반계정  user_tables, user_sequences
+--               접속계정이 관리자계정 dba_users...
+ 
 
 
 

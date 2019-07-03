@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="TopCategory">
+  <!-- mybatis 는 select 쿼리 결과가 여러건인 경우 각 레코드를 
+  	dto 담아서 List에 채워넣어준다..특히 select문의 각 컬럼값을 
+  	dto의 멤버변수에 1:1 매 핑하여 담아준다고 하여, 매퍼(Mapper) -->
+  <select id="selectAll" resultType="TopCategory">
+  	select * from topcategory
+  </select>
+  
+</mapper>
+
+
+
+
+
