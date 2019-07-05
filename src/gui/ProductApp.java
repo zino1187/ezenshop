@@ -1,5 +1,6 @@
 package gui;
 import java.awt.BorderLayout;
+import java.awt.Choice;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -25,6 +26,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
@@ -57,6 +59,28 @@ public class ProductApp extends JFrame{
 	JFileChooser chooser=new JFileChooser();
 	File file;//유저가 등록할 파일정보
 	
+	//이차원 구조의 데이터를 보여주기 위한 전용 컴포넌트
+	JTable table;
+	JScrollPane tbScroll;
+	
+	Choice search_type;
+	JTextField t_keyword;
+	JButton bt_search;
+	
+	//동쪽영역 
+	JTextField t_name2;//상품명
+	JTextField t_brand2;//브랜드명
+	JTextField t_price2;//가격 
+	JTextField t_color2;//색상 종류
+	JTextField t_psize2;//사이즈 선택
+	JTextField t_filename2;//파일추저로 선택하게끔..처리할예정
+	JTextArea area2;//상세 설명	
+	JScrollPane scroll2;
+	JButton bt_edit;//수정버튼
+	JButton bt_del;//삭제버튼
+	JButton bt_find2;//파일찾기 버튼
+	
+	
 	public ProductApp() {
 		p_west = new JPanel();
 		p_center = new JPanel();
@@ -79,6 +103,35 @@ public class ProductApp extends JFrame{
 		bt_regist = new JButton("등록");
 		bt_find = new JButton("파일찾기");
 		
+		table = new JTable(new MyTableModel());
+		tbScroll = new JScrollPane(table);
+		
+		search_type = new Choice();
+		search_type.add("상품");
+		search_type.add("브랜드");
+		search_type.add("가격");
+		t_keyword = new JTextField(30);
+		bt_search = new JButton("검색");
+		
+		t_name2 = new JTextField("청바지",10);
+		t_brand2 = new JTextField("지오다오",10);
+		t_price2 = new JTextField("0",10);
+		
+		t_color2 = new JTextField("red,blue,green",10);
+		t_psize2 = new JTextField("90,95,100,105",10);
+		
+		t_filename2 = new JTextField(10);
+		area2 = new JTextArea();
+		scroll2 = new JScrollPane(area2);
+		bt_edit = new JButton("수정");
+		bt_del = new JButton("삭제");
+		bt_find2 = new JButton("파일찾기");
+		
+		table = new JTable(new MyTableModel());
+		tbScroll = new JScrollPane(table);
+		
+		
+		
 		p_west.add(ch_top);
 		p_west.add(ch_sub);
 		p_west.add(t_name);
@@ -90,19 +143,45 @@ public class ProductApp extends JFrame{
 		p_west.add(t_filename);
 		p_west.add(bt_find);
 		p_west.add(bt_regist);
+		p_center.setLayout(new BorderLayout());
+		p_center.add(tbScroll);
 		
+		p_search.add(search_type);
+		p_search.add(t_keyword);
+		p_search.add(bt_search);
+		
+		
+		p_east.add(t_name2);
+		p_east.add(t_brand2);
+		p_east.add(t_price2);
+		p_east.add(t_color2);
+		p_east.add(t_psize2);	
+		p_east.add(scroll2);
+		p_east.add(t_filename2);
+		p_east.add(bt_find2);
+		p_east.add(bt_edit);		
+		p_east.add(bt_del);		
 		/*-----------------------------------------------------
 		 사이즈 등 스타일 처리
 		 -----------------------------------------------------*/
 		p_west.setPreferredSize(new Dimension(150,700));
-		p_west.setBackground(Color.YELLOW);
+		
 		ch_top.setPreferredSize(new Dimension(145,35));
 		ch_sub.setPreferredSize(new Dimension(145,35));
 		scroll.setPreferredSize(new Dimension(140,200));
-		t_filename.setEditable(false);
-
+		scroll2.setPreferredSize(new Dimension(140,200));
 		
+		t_filename.setEditable(false);
+		t_filename2.setEditable(false);
+		
+		p_center.setBackground(Color.PINK);
+		p_east.setBackground(Color.GREEN);
+		p_east.setPreferredSize(new Dimension(150,700));
+		
+		p_center.add(p_search, BorderLayout.NORTH);
 		add(p_west, BorderLayout.WEST);
+		add(p_center);//BorderLayout.CENTER
+		add(p_east, BorderLayout.EAST); //우측에 레이아웃 부착!!
 		
 		connect();
 		
@@ -152,7 +231,7 @@ public class ProductApp extends JFrame{
 			}
 		});
 		
-		setSize(1000,700);
+		setSize(1400,700);
 		setVisible(true);
 		this.setLocationRelativeTo(null);//언제나 모니터 정가운데.. 
 		

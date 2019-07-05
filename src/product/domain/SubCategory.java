@@ -1,9 +1,12 @@
 package product.domain;
 
+import java.util.List;
+
 public class SubCategory {
 	private int subcategory_id;
 	private int topcategory_id;
 	private String name;
+	private List<Product> product;
 	
 	public int getSubcategory_id() {
 		return subcategory_id;
@@ -23,6 +26,13 @@ public class SubCategory {
 	public void setName(String name) {
 		this.name = name;
 	}
+	public List<Product> getProduct() {
+		return product;
+	}
+	public void setProduct(List<Product> product) {
+		this.product = product;
+	}
+	
 	
 	
 }
