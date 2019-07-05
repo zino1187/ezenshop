@@ -1,5 +1,7 @@
 package model.repository;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 
 import mybatis.config.MybatisConfigManager;
@@ -16,6 +18,15 @@ public class ProductWebDAO {
 		sqlSession.commit();
 		return result;
 	}
+	
+	//모든 레코드 가져오기
+	public List selectAll() {
+		List list=null;
+		SqlSession sqlSession=configManager.getSqlSession();
+		list=sqlSession.selectList("Product.selectAll");//XML
+		return list;
+	}
+	
 }
 
 

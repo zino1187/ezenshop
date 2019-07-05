@@ -6,8 +6,41 @@
 	<insert id="insert" parameterType="Product">
 		insert into product(product_id,subcategory_id,product_name,brand,price,color,psize,filename,content)
 		values(seq_product.nextval,#{subCategory.subcategory_id},#{product_name},#{brand},#{price},#{color},#{psize},#{filename},#{content})
-	</insert>  
+	</insert>
+	
+	<!-- Mybatis 를 매퍼라 부르는 이유?? 
+		쿼리문에서 지정한 컬럼과 (데이터베이스 영역) DTO간 자동 매핑을 처리
+		해 주므로..즉 SQL문과 자바객체간 매핑을 해준다해서 Mapper라 함..
+		하지만, 개발을 하다보면 자동 매핑으로는 해결할 수 없는 예외상황 있다..
+		이때는 개발자는 직접 나서서 매핑해야 한다..
+	 -->
+	 <resultMap type="Product" id="productMap">
+	 	<id column="product_id" 				property="product_id"/>
+	 	<result column="subcategory_id" 	property="subCategory.subcategory_id"/>
+	 	<result column="product_name" 	property="product_name"/>
+	 	<result column="brand" 					property="brand"/>
+	 	<result column="price" 					property="price"/>
+	 	<result column="color" 					property="color"/>
+	 	<result column="psize" 					property="psize"/>
+	 	<result column="filename" 				property="filename"/>
+	 	<result column="content" 				property="content"/>
+	 	
+	 </resultMap>
+	 
+	<select id="selectAll" resultMap="productMap">
+		select * from product order by product_id desc
+	</select>	
+	
 </mapper>
+
+
+
+
+
+
+
+
+
 
 
 
