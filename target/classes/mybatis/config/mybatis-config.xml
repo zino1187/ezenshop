@@ -4,8 +4,9 @@
   "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 	<typeAliases>
-		<typeAlias type="product.domain.TopCategory" alias="TopCategory"/>
-		<typeAlias type="product.domain.SubCategory" alias="SubCategory"/>
+		<typeAlias type="product.domain.TopCategory" 	alias="TopCategory"/>
+		<typeAlias type="product.domain.SubCategory" 	alias="SubCategory"/>
+		<typeAlias type="product.domain.Product" 			alias="Product"/>
 	</typeAliases>
 		
   <environments default="development">
@@ -20,6 +21,7 @@
     <mapper resource="mybatis/mapper/AdminMapper.xml"/>
     <mapper resource="mybatis/mapper/TopCategoryMapper.xml"/>
     <mapper resource="mybatis/mapper/SubCategoryMapper.xml"/>
+    <mapper resource="mybatis/mapper/ProductMapper.xml"/>
   </mappers>
 </configuration>
 

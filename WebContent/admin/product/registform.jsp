@@ -126,6 +126,7 @@ function regist(){
 	</select>
 	
 	<select name="subcategory_id"></select>
+	
     <input type="text" name="product_name" placeholder="상품명..">
     <input type="text" name="brand" placeholder="브랜드명..">
     <input type="text" name="price" placeholder="가격">
