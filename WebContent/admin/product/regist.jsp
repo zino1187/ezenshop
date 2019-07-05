@@ -41,7 +41,9 @@
 	product.setContent(multi.getParameter("content"));
 	
 	int result=productDAO.insert(product);
-	out.print(result);
+	//out.print(result);
+	//목록을 새롭게 요청한다...sendRedirect()
+	response.sendRedirect("index.jsp");//브라우저로 하여금 지정한 url로 재접속 유도함 
 %>
 
 

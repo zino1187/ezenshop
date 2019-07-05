@@ -1,4 +1,12 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
+<%
+	int totalRecord=26;//총 레코드 수
+	int pageSize=10;//페이지당 보여질 레코드 수
+	int totalPage =(int)Math.ceil((float)totalRecord/pageSize);
+%>
+<%="totalRecord "+totalRecord+"<br>" %>
+<%="pageSize "+pageSize+"<br>" %>
+<%="totalPage "+totalPage+"<br>" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,25 +26,27 @@ body {
 
 	<table>
 		<tr>
-			<th>First Name</th>
-			<th>Last Name</th>
-			<th>Points</th>
+			<th>No</th>
+			<th>사진</th>
+			<th>하위분류</th>
+			<th>상품명</th>
+			<th>브랜드</th>
+			<th>가격</th>
+			<th>색상</th>
+			<th>사이즈</th>
 		</tr>
+		<%for(int i=1;i<=pageSize;i++){ %>
 		<tr>
-			<td>Jill</td>
-			<td>Smith</td>
-			<td>50</td>
+			<td>1</td>
+			<td><img src="/data/1562125805034.jpg" height="35px"></td>
+			<td>7</td>
+			<td>JB청바지</td>
+			<td>리바이스</td>
+			<td>23,000</td>
+			<td>red,blue,yellow</td>
+			<td>28,29,30,31</td>
 		</tr>
-		<tr>
-			<td>Eve</td>
-			<td>Jackson</td>
-			<td>94</td>
-		</tr>
-		<tr>
-			<td>Adam</td>
-			<td>Johnson</td>
-			<td>67</td>
-		</tr>
+		<%} %>
 		<tr>
 			<td colspan="3">
 				<button onClick="location.href='registform.jsp'">상품등록</button>
