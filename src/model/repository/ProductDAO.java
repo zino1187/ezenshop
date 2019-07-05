@@ -55,7 +55,76 @@ public class ProductDAO {
 		}
 		return list;
 	}
+	
+	//게시물 한건 가져오기!!
+	public Product select(int product_id) {
+		Connection con=null;
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		Product product=null;
+		String sql="select * from product where product_id=?";
+		
+		con=dbcpManager.getConnection();//풀로부터 대여
+		try {
+			pstmt=con.prepareStatement(sql);
+			pstmt.setInt(1, product_id);
+			rs=pstmt.executeQuery();
+			if(rs.next()) { //1건일때는 조건문..
+				product = new Product();
+				product.getSubCategory().setSubcategory_id(rs.getInt("subcategory_id"));
+				product.setProduct_id(rs.getInt("product_id"));
+				product.setProduct_name(rs.getString("product_name"));
+				product.setBrand(rs.getString("brand"));
+				product.setPrice(rs.getInt("price"));
+				product.setColor(rs.getString("color"));
+				product.setPsize(rs.getString("psize"));
+				product.setFilename(rs.getString("filename"));
+				product.setContent(rs.getString("content"));			
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			dbcpManager.freeConnection(con, pstmt, rs);
+		}
+		return product;
+	}
+	
+	//게시물 1건 삭제 DML ( insert, delete, update)
+	//이 쿼리문에 의해 반영된 레코드 수가 반환!! 
+	//따라서 insert 언제나 성공일 경우 1
+	public int delete(int product_id) {
+		Connection con=null;
+		PreparedStatement pstmt=null;
+		int result=0;
+		String sql="delete from product where product_id=?";
+		
+		con=dbcpManager.getConnection();
+		try {
+			pstmt=con.prepareStatement(sql);
+			pstmt.setInt(1, product_id);
+			result=pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			dbcpManager.freeConnection(con, pstmt);
+		}
+		return result;
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

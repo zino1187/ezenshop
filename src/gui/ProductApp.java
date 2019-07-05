@@ -7,6 +7,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
@@ -29,7 +31,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 
+import model.repository.ProductDAO;
+import product.domain.Product;
 import util.FileManager;
 public class ProductApp extends JFrame{
 	String url="jdbc:oracle:thin:@localhost:1521:XE";
@@ -80,6 +85,10 @@ public class ProductApp extends JFrame{
 	JButton bt_del;//삭제버튼
 	JButton bt_find2;//파일찾기 버튼
 	
+	ProductDAO productDAO=new ProductDAO();
+	//유저가 선택한 상품의 primary key 
+	String product_id;
+	MyTableModel model;
 	
 	public ProductApp() {
 		p_west = new JPanel();
@@ -103,7 +112,7 @@ public class ProductApp extends JFrame{
 		bt_regist = new JButton("등록");
 		bt_find = new JButton("파일찾기");
 		
-		table = new JTable(new MyTableModel());
+		table = new JTable(model=new MyTableModel());
 		tbScroll = new JScrollPane(table);
 		
 		search_type = new Choice();
@@ -113,12 +122,12 @@ public class ProductApp extends JFrame{
 		t_keyword = new JTextField(30);
 		bt_search = new JButton("검색");
 		
-		t_name2 = new JTextField("청바지",10);
-		t_brand2 = new JTextField("지오다오",10);
-		t_price2 = new JTextField("0",10);
+		t_name2 = new JTextField(10);
+		t_brand2 = new JTextField(10);
+		t_price2 = new JTextField(10);
 		
-		t_color2 = new JTextField("red,blue,green",10);
-		t_psize2 = new JTextField("90,95,100,105",10);
+		t_color2 = new JTextField(10);
+		t_psize2 = new JTextField(10);
 		
 		t_filename2 = new JTextField(10);
 		area2 = new JTextArea();
@@ -126,10 +135,6 @@ public class ProductApp extends JFrame{
 		bt_edit = new JButton("수정");
 		bt_del = new JButton("삭제");
 		bt_find2 = new JButton("파일찾기");
-		
-		table = new JTable(new MyTableModel());
-		tbScroll = new JScrollPane(table);
-		
 		
 		
 		p_west.add(ch_top);
@@ -228,6 +233,29 @@ public class ProductApp extends JFrame{
 				if(flag) {
 					regist();
 				}
+			}
+		});
+		
+		//테이블에 마우스 리스너 구현하기!!!
+		table.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				//System.out.println("마우스 클릭햇어?");
+				int row=table.getSelectedRow();
+				int col=table.getSelectedColumn();
+				//System.out.println("row="+row+", col="+col);
+				
+				product_id=(String)table.getValueAt(row , 0);//지정한 좌표의 셀값 반환
+				System.out.println(product_id);
+				
+				Product product=productDAO.select(Integer.parseInt(product_id));
+				getContent(product);
+			}
+		});
+		
+		//삭제 이벤트 구현
+		bt_del.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				deleteProduct();
 			}
 		});
 		
@@ -421,6 +449,8 @@ public class ProductApp extends JFrame{
 				JOptionPane.showMessageDialog(this,"등록실패");
 			}else {
 				JOptionPane.showMessageDialog(this,"등록성공");
+				model.initData();
+				table.updateUI();
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -432,6 +462,40 @@ public class ProductApp extends JFrame{
 					e.printStackTrace();
 				}
 			}									
+		}
+	}
+	
+	//선택한 상품의 상세정보 출력하기!!!
+	public void getContent(Product product) {
+		t_name2.setText(product.getProduct_name());
+		t_brand2.setText(product.getBrand());
+		t_price2.setText(Integer.toString(product.getPrice()));
+		t_color2.setText(product.getColor());
+		t_psize2.setText(product.getPsize());
+		area2.setText(product.getContent());
+		t_filename2.setText(product.getFilename());		
+	}
+	
+	public void deleteProduct() {
+		int result=JOptionPane.showConfirmDialog(this, "삭제하시겠어요?");
+		if(result == JOptionPane.OK_OPTION) {
+			//db + 파일삭제
+			if(productDAO.delete(Integer.parseInt(product_id)) !=0) {
+				//파일삭제
+				File file=new File("D:/final_workspace/Shopping/WebContent/data/"+t_filename2.getText());
+				if(file.exists()) {
+					if(!file.delete()) {
+						System.out.println("파일삭제는 실패");	
+					}else {
+						System.out.println("파일삭제도 성공");
+					}
+				}else {
+					System.out.println("파일이 존재하지 않음");
+				}				
+				JOptionPane.showMessageDialog(this, "삭제 성공");
+				model.initData();
+				table.updateUI();//스윙 컴포넌트 새로고침!!
+			}
 		}
 	}
 	

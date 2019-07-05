@@ -1,6 +1,8 @@
 package gui;
 import java.util.List;
 
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.AbstractTableModel;
 
 import model.repository.ProductDAO;
@@ -30,11 +32,16 @@ public class MyTableModel extends AbstractTableModel{
 		"CONTENT"
 	};
 	
-	ProductDAO productDAO;
+	ProductDAO productDAO= new ProductDAO();
 	List<Product> productList;
 	
 	public MyTableModel() {
-		productDAO = new ProductDAO();
+		initData();
+	}
+	
+	//이차원배열 구성 기능은, 1회성이 재사용성이 높다!!.
+	//따라서 메서드로 정의해놓아야 한다!!
+	public void initData() {
 		productList=productDAO.selectAll();
 		
 		//컬렉션을 배열로 변환!!!
@@ -59,6 +66,7 @@ public class MyTableModel extends AbstractTableModel{
 			
 			data[i]=record;//기존의 2차원 배열 각 요소에 방금 생성한 일차원배열을 넣어줌
 		}
+		
 	}
 	
 	//행의 갯수 row
@@ -71,11 +79,18 @@ public class MyTableModel extends AbstractTableModel{
 		return column.length;
 	}
 	
+	@Override
+	public String getColumnName(int col) {
+		return column[col];
+	}
+	
 	// 지정된 행,열에 들어갈 값을 결정하는 메서드
 	public Object getValueAt(int row, int col) {
-		System.out.println("getValueAt("+row+", "+col+")");
+		//System.out.println("getValueAt("+row+", "+col+")");
 		return data[row][col];
 	}
+
+
 
 }
 
