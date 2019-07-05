@@ -21,6 +21,7 @@ public class TopCategoryDAO {
 	public List selectAll() {
 		SqlSession sqlSession=configManager.getSqlSession();
 		List list=sqlSession.selectList("TopCategory.selectAll");
+		configManager.freeSession(sqlSession);//¹Ý³³!!
 		return list;
 	}
 }

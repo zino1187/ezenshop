@@ -16,6 +16,7 @@ public class ProductWebDAO {
 		SqlSession sqlSession=configManager.getSqlSession();
 		result=sqlSession.insert("Product.insert", product);
 		sqlSession.commit();
+		configManager.freeSession(sqlSession);
 		return result;
 	}
 	
@@ -24,6 +25,14 @@ public class ProductWebDAO {
 		List list=null;
 		SqlSession sqlSession=configManager.getSqlSession();
 		list=sqlSession.selectList("Product.selectAll");//XML
+		configManager.freeSession(sqlSession);
+		return list;
+	}
+	public List selectAllBySubCategory(int subcategory_id) {
+		List list=null;
+		SqlSession sqlSession=configManager.getSqlSession();
+		list=sqlSession.selectList("Product.selectAllBySubCategory", subcategory_id);//XML
+		configManager.freeSession(sqlSession);
 		return list;
 	}
 	

@@ -29,6 +29,12 @@
 	 
 	<select id="selectAll" resultMap="productMap">
 		select * from product order by product_id desc
+	</select>
+	
+	<!-- 서브카테고리 선택시 등록상품가져오기 -->	
+	<select id="selectAllBySubCategory" parameterType="int" resultMap="productMap">
+		select * from product where subcategory_id=#{subcategory_id} 
+		order by product_id desc
 	</select>	
 	
 </mapper>

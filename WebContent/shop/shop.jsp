@@ -1,3 +1,20 @@
+<%@page import="product.domain.Product"%>
+<%@page import="model.repository.ProductWebDAO"%>
+<%@page import="product.domain.SubCategory"%>
+<%@page import="java.util.List"%>
+<%@page import="model.repository.SubCategoryDAO"%>
+<%@ page contentType="text/html; charset=UTF-8"%>
+<%!
+	SubCategoryDAO subDAO = new SubCategoryDAO();
+	ProductWebDAO productDAO = new ProductWebDAO();
+%>
+<%
+	//선택된 상위 카테고리 넘겨받기!!
+	String topcategory_id = request.getParameter("topcategory_id");
+	List<SubCategory> subList=subDAO.selectAll(Integer.parseInt(topcategory_id));
+	int subcategory_id=0; //처음에 들어왔을때...currentPage와 원리가 같다!!
+	List<Product> productList=productDAO.selectAllBySubCategory(subcategory_id);	
+%>
 <!DOCTYPE html>
 <!--[if IE]><![endif]-->
 <!--[if lt IE 7 ]> <html lang="en" class="ie6">    <![endif]-->
@@ -210,38 +227,7 @@
 				<div class="row">
 					<div class="col-md-12">
 						<div class="main-menu hidden-xs">
-							<nav>
-								<ul>
-									<li><a href="index.html">Home</a></li>
-									<li><a href="shop.html">Shop</a></li>
-									<li><a href="shop.html">Men</a></li>
-									<li><a href="shop.html">Women</a></li>
-									<li><a href="shop.html">Kids</a></li>
-									<li><a href="shop.html">gift</a></li>
-									<li><a href="blog-left-sidebar.html">Blog</a>
-										<ul class="sub-menu">
-											<li><a href="blog-right-sidebar.html">Blog Right Sidebar</a></li>
-											<li><a href="blog-single.html">Blog Details</a></li>
-										</ul>
-									</li>
-									<li><a href="#">Pages</a>
-										<ul class="sub-menu">
-											<li><a href="shop.html">Shop</a></li>
-											<li><a href="shop.html">Men</a></li>
-											<li><a href="shop.html">Women</a></li>
-											<li><a href="shop.html">Kids</a></li>
-											<li><a href="shop.html">Gift</a></li>
-											<li><a href="about-us.html">About Us</a></li>
-											<li><a href="single-product.html">Single Product</a></li>
-											<li><a href="cart.html">Cart</a></li>
-											<li><a href="checkout.html">Checkout</a></li>
-											<li><a href="look-book.html">Look Book</a></li>
-											<li><a href="404.html">Error 404</a></li>
-										</ul>
-									</li>
-									<li><a href="contact.html">contact</a></li>
-								</ul>
-							</nav>
+							<%@ include file="/inc/shop/main_navi.jsp" %>
 						</div>
 						<!-- Mobile MENU AREA -->
 						<div class="mobile-menu hidden-sm hidden-md hidden-lg">
@@ -325,18 +311,12 @@
 					<div class="col-md-3 col-sm-4">
 						<div class="product-item-categori">
 							<div class="product-type">
-								<h2>Product Type</h2>
+								<h2>SubCategory</h2>
 								<ul>
-									<li><a href="#"><i class="fa fa-angle-right"></i>Dresses</a></li>
-									<li><a href="#" class="active"><i class="fa fa-angle-right"></i>Shirts</a></li>
-									<li><a href="#"><i class="fa fa-angle-right"></i>Coats</a></li>
-									<li><a href="#"><i class="fa fa-angle-right"></i>Jackets</a></li>
-									<li><a href="#"><i class="fa fa-angle-right"></i>Storts</a></li>
-									<li><a href="#"><i class="fa fa-angle-right"></i>Jeans</a></li>
-									<li><a href="#"><i class="fa fa-angle-right"></i>Skirts</a></li>
-									<li><a href="#"><i class="fa fa-angle-right"></i>Lingeris</a></li>
-									<li><a href="#"><i class="fa fa-angle-right"></i>Shoes</a></li>
-									<li><a href="#"><i class="fa fa-angle-right"></i>Bags</a></li>
+									
+									<%for(SubCategory sub : subList){ %>
+									<li><a href="shop.jsp?topcategory_id=<%=topcategory_id%>&subcategory_id=<%=sub.getSubcategory_id()%>"><i class="fa fa-angle-right"></i><%=sub.getName() %></a></li>
+									<%} %>
 								</ul>
 							</div>
 						</div>

@@ -1,3 +1,4 @@
+<%@ page contentType="text/html; charset=UTF-8"%>
 <!DOCTYPE html>
 <!--[if IE]><![endif]-->
 <!--[if lt IE 7 ]> <html lang="en" class="ie6">    <![endif]-->
@@ -210,38 +211,8 @@
 				<div class="row">
 					<div class="col-md-12">
 						<div class="main-menu hidden-xs">
-							<nav>
-								<ul>
-									<li><a href="index.html">Home</a></li>
-									<li><a href="shop.html">Shop</a></li>
-									<li><a href="shop.html">Men</a></li>
-									<li><a href="shop.html">Women</a></li>
-									<li><a href="shop.html">Kids</a></li>
-									<li><a href="shop.html">gift</a></li>
-									<li><a href="blog-left-sidebar.html">Blog</a>
-										<ul class="sub-menu">
-											<li><a href="blog-right-sidebar.html">Blog Right Sidebar</a></li>
-											<li><a href="blog-single.html">Blog Details</a></li>
-										</ul>
-									</li>
-									<li><a href="#">Pages</a>
-										<ul class="sub-menu">
-											<li><a href="shop.html">Shop</a></li>
-											<li><a href="shop.html">Men</a></li>
-											<li><a href="shop.html">Women</a></li>
-											<li><a href="shop.html">Kids</a></li>
-											<li><a href="shop.html">Gift</a></li>
-											<li><a href="about-us.html">About Us</a></li>
-											<li><a href="single-product.html">Single Product</a></li>
-											<li><a href="cart.html">Cart</a></li>
-											<li><a href="checkout.html">Checkout</a></li>
-											<li><a href="look-book.html">Look Book</a></li>
-											<li><a href="404.html">Error 404</a></li>
-										</ul>
-									</li>
-									<li><a href="contact.html">contact</a></li>
-								</ul>
-							</nav>
+						
+						<%@ include file="/inc/shop/main_navi.jsp" %>
 						</div>
 						<!-- Mobile MENU AREA -->
 						<div class="mobile-menu hidden-sm hidden-md hidden-lg">
