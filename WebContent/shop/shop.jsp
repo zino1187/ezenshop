@@ -10,9 +10,18 @@
 %>
 <%
 	//선택된 상위 카테고리 넘겨받기!!
-	String topcategory_id = request.getParameter("topcategory_id");
-	List<SubCategory> subList=subDAO.selectAll(Integer.parseInt(topcategory_id));
+	int topcategory_id = 0;
+	if(request.getParameter("topcategory_id") != null){
+		topcategory_id=Integer.parseInt(request.getParameter("topcategory_id"));
+	}
+
+	List<SubCategory> subList=subDAO.selectAll(topcategory_id);
+	
 	int subcategory_id=0; //처음에 들어왔을때...currentPage와 원리가 같다!!
+	//서브카테고리를 선택한 경우~
+	if(request.getParameter("subcategory_id") != null){
+		subcategory_id=Integer.parseInt(request.getParameter("subcategory_id"));
+	}
 	List<Product> productList=productDAO.selectAllBySubCategory(subcategory_id);	
 %>
 <!DOCTYPE html>
@@ -385,11 +394,13 @@
 								</div>
 							</div>
 							<div class="row">
+								<%for(int i=0;i<productList.size();i++){%>
+								<!-- 상품 박스 begin -->
 								<div class="col-md-4 col-sm-6">
 									<div class="single-item-area">
 										<div class="single-item">
 											<div class="product-item-img">
-												<a href="#">
+												<a href="#" >
 													<img class="primary-img" src="img/shop/item-1.jpg" alt="item">
 													<img class="secondary-img" src="img/shop/item-2.jpg" alt="item">
 												</a>
@@ -398,7 +409,7 @@
 													<a href="#"><i class="fa fa-shopping-cart"></i></a>
 												</div>
 											</div>
-											<div class="single-item-content">
+											<div class="single-item-content" >
 												<h2><a href="#">Blue shirt</a></h2>
 												<div class="best-product-rating">
 													<a href="#"><i class="fa fa-star"></i></a>
@@ -420,286 +431,8 @@
 										</div>
 									</div>
 								</div>
-								<div class="col-md-4 col-sm-6">
-									<div class="single-item-area">
-										<div class="single-item">
-											<div class="product-item-img">
-												<a href="#">
-													<img class="primary-img" src="img/shop/item-2.jpg" alt="item">
-													<img class="secondary-img" src="img/shop/item-2.jpg" alt="item">
-												</a>
-												<div class="product-item-action">
-													<a href="#"><i class="fa fa-external-link"></i></a>
-													<a href="#"><i class="fa fa-shopping-cart"></i></a>
-												</div>
-											</div>
-											<div class="single-item-content">
-												<h2><a href="#">Blue shirt</a></h2>
-												<div class="best-product-rating">
-													<a href="#"><i class="fa fa-star"></i></a>
-													<a href="#"><i class="fa fa-star"></i></a>
-													<a href="#"><i class="fa fa-star"></i></a>
-													<a href="#"><i class="fa fa-star"></i></a>
-													<a href="#"><i class="fa fa-star"></i></a>
-												</div>
-												<h3>$17.00</h3>
-											</div>
-										</div>
-										<div class="item-action-button fix">
-											<a href="#">Add to Cart</a>
-											<div class="item-action-icon">
-												<a href="#"><i class="fa fa-heart"></i></a>
-												<a href="#"><i class="fa fa-signal"></i></a>
-												<a href="#"><i class="fa fa-search"></i></a>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-md-4 col-sm-6">
-									<div class="single-item-area">
-										<div class="single-item">
-											<div class="product-item-img">
-												<a href="#">
-													<img class="primary-img" src="img/shop/item-3.jpg" alt="item">
-													<img class="secondary-img" src="img/shop/item-2.jpg" alt="item">
-												</a>
-												<div class="product-item-action">
-													<a href="#"><i class="fa fa-external-link"></i></a>
-													<a href="#"><i class="fa fa-shopping-cart"></i></a>
-												</div>
-											</div>
-											<div class="single-item-content">
-												<h2><a href="#">Blue shirt</a></h2>
-												<div class="best-product-rating">
-													<a href="#"><i class="fa fa-star"></i></a>
-													<a href="#"><i class="fa fa-star"></i></a>
-													<a href="#"><i class="fa fa-star"></i></a>
-													<a href="#"><i class="fa fa-star"></i></a>
-													<a href="#"><i class="fa fa-star"></i></a>
-												</div>
-												<h3>$17.00</h3>
-											</div>
-										</div>
-										<div class="item-action-button fix">
-											<a href="#">Add to Cart</a>
-											<div class="item-action-icon">
-												<a href="#"><i class="fa fa-heart"></i></a>
-												<a href="#"><i class="fa fa-signal"></i></a>
-												<a href="#"><i class="fa fa-search"></i></a>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-md-4 col-sm-6">
-									<div class="single-item-area">
-										<div class="single-item">
-											<div class="product-item-img">
-												<a href="#">
-													<img class="primary-img" src="img/shop/item-4.jpg" alt="item">
-													<img class="secondary-img" src="img/shop/item-2.jpg" alt="item">
-												</a>
-												<div class="product-item-action">
-													<a href="#"><i class="fa fa-external-link"></i></a>
-													<a href="#"><i class="fa fa-shopping-cart"></i></a>
-												</div>
-											</div>
-											<div class="single-item-content">
-												<h2><a href="#">Blue shirt</a></h2>
-												<div class="best-product-rating">
-													<a href="#"><i class="fa fa-star"></i></a>
-													<a href="#"><i class="fa fa-star"></i></a>
-													<a href="#"><i class="fa fa-star"></i></a>
-													<a href="#"><i class="fa fa-star"></i></a>
-													<a href="#"><i class="fa fa-star"></i></a>
-												</div>
-												<h3>$17.00</h3>
-											</div>
-										</div>
-										<div class="item-action-button fix">
-											<a href="#">Add to Cart</a>
-											<div class="item-action-icon">
-												<a href="#"><i class="fa fa-heart"></i></a>
-												<a href="#"><i class="fa fa-signal"></i></a>
-												<a href="#"><i class="fa fa-search"></i></a>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-md-4 col-sm-6">
-									<div class="single-item-area">
-										<div class="single-item">
-											<div class="product-item-img">
-												<a href="#">
-													<img class="primary-img" src="img/shop/item-5.jpg" alt="item">
-													<img class="secondary-img" src="img/shop/item-2.jpg" alt="item">
-												</a>
-												<div class="product-item-action">
-													<a href="#"><i class="fa fa-external-link"></i></a>
-													<a href="#"><i class="fa fa-shopping-cart"></i></a>
-												</div>
-											</div>
-											<div class="single-item-content">
-												<h2><a href="#">Blue shirt</a></h2>
-												<div class="best-product-rating">
-													<a href="#"><i class="fa fa-star"></i></a>
-													<a href="#"><i class="fa fa-star"></i></a>
-													<a href="#"><i class="fa fa-star"></i></a>
-													<a href="#"><i class="fa fa-star"></i></a>
-													<a href="#"><i class="fa fa-star"></i></a>
-												</div>
-												<h3>$17.00</h3>
-											</div>
-										</div>
-										<div class="item-action-button fix">
-											<a href="#">Add to Cart</a>
-											<div class="item-action-icon">
-												<a href="#"><i class="fa fa-heart"></i></a>
-												<a href="#"><i class="fa fa-signal"></i></a>
-												<a href="#"><i class="fa fa-search"></i></a>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-md-4 col-sm-6">
-									<div class="single-item-area">
-										<div class="single-item">
-											<div class="product-item-img">
-												<a href="#">
-													<img class="primary-img" src="img/shop/item-6.jpg" alt="item">
-													<img class="secondary-img" src="img/shop/item-2.jpg" alt="item">
-												</a>
-												<div class="product-item-action">
-													<a href="#"><i class="fa fa-external-link"></i></a>
-													<a href="#"><i class="fa fa-shopping-cart"></i></a>
-												</div>
-											</div>
-											<div class="single-item-content">
-												<h2><a href="#">Blue shirt</a></h2>
-												<div class="best-product-rating">
-													<a href="#"><i class="fa fa-star"></i></a>
-													<a href="#"><i class="fa fa-star"></i></a>
-													<a href="#"><i class="fa fa-star"></i></a>
-													<a href="#"><i class="fa fa-star"></i></a>
-													<a href="#"><i class="fa fa-star"></i></a>
-												</div>
-												<h3>$17.00</h3>
-											</div>
-										</div>
-										<div class="item-action-button fix">
-											<a href="#">Add to Cart</a>
-											<div class="item-action-icon">
-												<a href="#"><i class="fa fa-heart"></i></a>
-												<a href="#"><i class="fa fa-signal"></i></a>
-												<a href="#"><i class="fa fa-search"></i></a>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-md-4 col-sm-6">
-									<div class="single-item-area">
-										<div class="single-item">
-											<div class="product-item-img">
-												<a href="#">
-													<img class="primary-img" src="img/shop/item-7.jpg" alt="item">
-													<img class="secondary-img" src="img/shop/item-2.jpg" alt="item">
-												</a>
-												<div class="product-item-action">
-													<a href="#"><i class="fa fa-external-link"></i></a>
-													<a href="#"><i class="fa fa-shopping-cart"></i></a>
-												</div>
-											</div>
-											<div class="single-item-content">
-												<h2><a href="#">Blue shirt</a></h2>
-												<div class="best-product-rating">
-													<a href="#"><i class="fa fa-star"></i></a>
-													<a href="#"><i class="fa fa-star"></i></a>
-													<a href="#"><i class="fa fa-star"></i></a>
-													<a href="#"><i class="fa fa-star"></i></a>
-													<a href="#"><i class="fa fa-star"></i></a>
-												</div>
-												<h3>$17.00</h3>
-											</div>
-										</div>
-										<div class="item-action-button fix">
-											<a href="#">Add to Cart</a>
-											<div class="item-action-icon">
-												<a href="#"><i class="fa fa-heart"></i></a>
-												<a href="#"><i class="fa fa-signal"></i></a>
-												<a href="#"><i class="fa fa-search"></i></a>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-md-4 col-sm-6">
-									<div class="single-item-area">
-										<div class="single-item">
-											<div class="product-item-img">
-												<a href="#">
-													<img class="primary-img" src="img/shop/item-8.jpg" alt="item">
-													<img class="secondary-img" src="img/shop/item-2.jpg" alt="item">
-												</a>
-												<div class="product-item-action">
-													<a href="#"><i class="fa fa-external-link"></i></a>
-													<a href="#"><i class="fa fa-shopping-cart"></i></a>
-												</div>
-											</div>
-											<div class="single-item-content">
-												<h2><a href="#">Blue shirt</a></h2>
-												<div class="best-product-rating">
-													<a href="#"><i class="fa fa-star"></i></a>
-													<a href="#"><i class="fa fa-star"></i></a>
-													<a href="#"><i class="fa fa-star"></i></a>
-													<a href="#"><i class="fa fa-star"></i></a>
-													<a href="#"><i class="fa fa-star"></i></a>
-												</div>
-												<h3>$17.00</h3>
-											</div>
-										</div>
-										<div class="item-action-button fix">
-											<a href="#">Add to Cart</a>
-											<div class="item-action-icon">
-												<a href="#"><i class="fa fa-heart"></i></a>
-												<a href="#"><i class="fa fa-signal"></i></a>
-												<a href="#"><i class="fa fa-search"></i></a>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-md-4 col-sm-6 hidden-sm">
-									<div class="single-item-area">
-										<div class="single-item">
-											<div class="product-item-img">
-												<a href="#">
-													<img class="primary-img" src="img/shop/item-9.jpg" alt="item">
-													<img class="secondary-img" src="img/shop/item-2.jpg" alt="item">
-												</a>
-												<div class="product-item-action">
-													<a href="#"><i class="fa fa-external-link"></i></a>
-													<a href="#"><i class="fa fa-shopping-cart"></i></a>
-												</div>
-											</div>
-											<div class="single-item-content">
-												<h2><a href="#">Blue shirt</a></h2>
-												<div class="best-product-rating">
-													<a href="#"><i class="fa fa-star"></i></a>
-													<a href="#"><i class="fa fa-star"></i></a>
-													<a href="#"><i class="fa fa-star"></i></a>
-													<a href="#"><i class="fa fa-star"></i></a>
-													<a href="#"><i class="fa fa-star"></i></a>
-												</div>
-												<h3>$17.00</h3>
-											</div>
-										</div>
-										<div class="item-action-button fix">
-											<a href="#">Add to Cart</a>
-											<div class="item-action-icon">
-												<a href="#"><i class="fa fa-heart"></i></a>
-												<a href="#"><i class="fa fa-signal"></i></a>
-												<a href="#"><i class="fa fa-search"></i></a>
-											</div>
-										</div>
-									</div>
-								</div>
+								<!-- 상품 박스 end -->
+								<%} %>
 							</div>
 						</div>
 						<div class="shop-pagination floatright">

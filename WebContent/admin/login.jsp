@@ -31,7 +31,7 @@
 		out.print("</script>");
 	}else{
 		//세션을 유지할 수 있는 보상을 해주자!!
-		session.setAttribute("admin", admin); //세션에 저장!!
+		session.setAttribute("admin", obj); //세션에 저장!!
 		// 포워딩까지는 필요없다.왜?? 세션을 쓰면 브라우저 닫지 않는 한, 계속
 		//서버의 세션 객체를 참조할 수 있으므로..
 		
