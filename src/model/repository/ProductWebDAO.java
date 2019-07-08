@@ -36,7 +36,21 @@ public class ProductWebDAO {
 		return list;
 	}
 	
+	//상품 1건 가져오기
+	public Product select(int product_id) {
+		Product product=null;
+		SqlSession sqlSession=configManager.getSqlSession();
+		product = sqlSession.selectOne("Product.select", product_id);
+		configManager.freeSession(sqlSession);
+		return product;
+	}
+	
 }
+
+
+
+
+
 
 
 

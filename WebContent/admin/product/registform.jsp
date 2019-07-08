@@ -56,10 +56,30 @@ $(function(){
 		getSubList();
 	});	
 	
-	var bt=$("input[type='button']");
+	var bt=$("input[type='button']")[0];
 	$(bt).click(function(){
 		regist();
 	});
+	
+	//일괄 등록 버튼 누르면..
+	var bt2 = $("input[type='button']")[1];
+	$(bt2).click(function(){
+		//엑셀을 첨부할 수 있는 디자인을 보이게..
+		$("#excelform").css("display","block");
+	});
+	
+	var bt3 = $("input[type='button']")[2];
+	$(bt3).click(function(){
+		//서버에 엑셀파일을 업로드!!!
+		$("form").attr({
+			method:"post",
+			action:"dump.jsp",
+			enctype:"multipart/form-data"
+		});
+		$("form").submit();
+	});
+	
+	
 });		
 
 //서버로부터 하위 목록 가져오기!!
@@ -135,6 +155,15 @@ function regist(){
     <input type="file" name="filename">
 	<textarea name="content" id="content"></textarea>
     <input type="button" value="상품등록">
+    <input type="button" value="일괄등록">
+    
+    <div id="excelform" style="display:none">
+    	* 일괄등록시 함께 등록될 이미지는, 서버의 temp 디렉토리에 미리 올려놓아 주세용^^
+    	<br>
+    	<input type="file" name="excelfile"/>
+    	<input type="button" value="업로드"/>
+    </div>
+    
   </form>
 </div>
 

@@ -1,28 +1,12 @@
 <%@page import="product.domain.Product"%>
 <%@page import="model.repository.ProductWebDAO"%>
-<%@page import="product.domain.SubCategory"%>
-<%@page import="java.util.List"%>
-<%@page import="model.repository.SubCategoryDAO"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%!
-	SubCategoryDAO subDAO = new SubCategoryDAO();
 	ProductWebDAO productDAO = new ProductWebDAO();
 %>
 <%
-	//선택된 상위 카테고리 넘겨받기!!
-	int topcategory_id = 0;
-	if(request.getParameter("topcategory_id") != null){
-		topcategory_id=Integer.parseInt(request.getParameter("topcategory_id"));
-	}
-
-	List<SubCategory> subList=subDAO.selectAll(topcategory_id);
-	
-	int subcategory_id=0; //처음에 들어왔을때...currentPage와 원리가 같다!!
-	//서브카테고리를 선택한 경우~
-	if(request.getParameter("subcategory_id") != null){
-		subcategory_id=Integer.parseInt(request.getParameter("subcategory_id"));
-	}
-	List<Product> productList=productDAO.selectAllBySubCategory(subcategory_id);	
+	String product_id=request.getParameter("product_id");
+	Product product=productDAO.select(Integer.parseInt(product_id));
 %>
 <!DOCTYPE html>
 <!--[if IE]><![endif]-->
@@ -35,7 +19,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>b-Sale | Shop List</title>
+        <title>b-Sale | Single Product</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -107,12 +91,6 @@
         <link rel="stylesheet" href="css/responsive.css">
         
         <script src="js/vendor/modernizr-2.8.3.min.js"></script>
-        <script>
-        function goDetail(product_id){
-			//상세보기 페이지 요청하기!!!
-			location.href="detail.jsp?product_id="+product_id;//get
-        }
-        </script>
     </head>
     <body class="">
         <!--[if lt IE 8]>
@@ -242,7 +220,38 @@
 				<div class="row">
 					<div class="col-md-12">
 						<div class="main-menu hidden-xs">
-							<%@ include file="/inc/shop/main_navi.jsp" %>
+							<nav>
+								<ul>
+									<li><a href="index.html">Home</a></li>
+									<li><a href="shop.html">Shop</a></li>
+									<li><a href="shop.html">Men</a></li>
+									<li><a href="shop.html">Women</a></li>
+									<li><a href="shop.html">Kids</a></li>
+									<li><a href="shop.html">gift</a></li>
+									<li><a href="blog-left-sidebar.html">Blog</a>
+										<ul class="sub-menu">
+											<li><a href="blog-right-sidebar.html">Blog Right Sidebar</a></li>
+											<li><a href="blog-single.html">Blog Details</a></li>
+										</ul>
+									</li>
+									<li><a href="#">Pages</a>
+										<ul class="sub-menu">
+											<li><a href="shop.html">Shop</a></li>
+											<li><a href="shop.html">Men</a></li>
+											<li><a href="shop.html">Women</a></li>
+											<li><a href="shop.html">Kids</a></li>
+											<li><a href="shop.html">Gift</a></li>
+											<li><a href="about-us.html">About Us</a></li>
+											<li><a href="single-product.html">Single Product</a></li>
+											<li><a href="cart.html">Cart</a></li>
+											<li><a href="checkout.html">Checkout</a></li>
+											<li><a href="look-book.html">Look Book</a></li>
+											<li><a href="404.html">Error 404</a></li>
+										</ul>
+									</li>
+									<li><a href="contact.html">contact</a></li>
+								</ul>
+							</nav>
 						</div>
 						<!-- Mobile MENU AREA -->
 						<div class="mobile-menu hidden-sm hidden-md hidden-lg">
@@ -315,7 +324,8 @@
 			<div class="container">
 				<ul class="breadcrumb">
 					<li><a href="#">Home</a></li>
-					<li>Men</li>
+					<li><a href="#">Men</a></li>
+					<li>Single Product</li>
 				</ul>
 			</div>
 		</div>
@@ -326,12 +336,18 @@
 					<div class="col-md-3 col-sm-4">
 						<div class="product-item-categori">
 							<div class="product-type">
-								<h2>SubCategory</h2>
+								<h2>Product Type</h2>
 								<ul>
-									
-									<%for(SubCategory sub : subList){ %>
-									<li><a href="shop.jsp?topcategory_id=<%=topcategory_id%>&subcategory_id=<%=sub.getSubcategory_id()%>"><i class="fa fa-angle-right"></i><%=sub.getName() %></a></li>
-									<%} %>
+									<li><a href="#"><i class="fa fa-angle-right"></i>Dresses</a></li>
+									<li><a href="#" class="active"><i class="fa fa-angle-right"></i>Shirts</a></li>
+									<li><a href="#"><i class="fa fa-angle-right"></i>Coats</a></li>
+									<li><a href="#"><i class="fa fa-angle-right"></i>Jackets</a></li>
+									<li><a href="#"><i class="fa fa-angle-right"></i>Storts</a></li>
+									<li><a href="#"><i class="fa fa-angle-right"></i>Jeans</a></li>
+									<li><a href="#"><i class="fa fa-angle-right"></i>Skirts</a></li>
+									<li><a href="#"><i class="fa fa-angle-right"></i>Lingeris</a></li>
+									<li><a href="#"><i class="fa fa-angle-right"></i>Shoes</a></li>
+									<li><a href="#"><i class="fa fa-angle-right"></i>Bags</a></li>
 								</ul>
 							</div>
 						</div>
@@ -348,14 +364,14 @@
 							<h2>Filter by Size</h2>
 							<div class="filter-size">
 								<div class="filter-size-left">
-									<a href="#"><p>M (6)</p></a>
-									<a href="#"><p>X (7)</p></a>
-									<a href="#"><p>XS (10)</p></a>
+									<p>M (6)</p>
+									<p>X (7)</p>
+									<p>XS (10)</p>
 								</div>
 								<div class="filter-size-right">
-									<a href="#"><p>M (6)</p></a>
-									<a href="#"><p>X (7)</p></a>
-									<a href="#"><p>XS (10)</p></a>
+									<p>M (6)</p>
+									<p>X (7)</p>
+									<p>XS (10)</p>
 								</div>
 							</div>
 						</div>
@@ -369,89 +385,274 @@
 						</div>
 					</div>
 					<div class="col-md-9 col-sm-8">
-						<div class="product-item-list">
-							<div class="row">
-								<div class="col-md-12 col-sm-12">
-									<div class="product-item-heading">
-										<div class="item-heading-title">
-											<h2>Shirts</h2>
+						<div class="row">
+							<div class="col-md-5 col-sm-5">
+								<div class="product-item-tab">
+									<!-- Tab panes -->
+									<div class="single-tab-content">
+										<div class="tab-content">
+											<div role="tabpanel" class="tab-pane active" id="img-one"><img src="img/single-product/single-product-1.jpg" alt="tab-img"></div>
+											<div role="tabpanel" class="tab-pane" id="img-two"><img src="img/single-product/single-product-2.jpg" alt="tab-img"></div>
+											<div role="tabpanel" class="tab-pane" id="img-three"><img src="img/single-product/single-product-1.jpg" alt="tab-img"></div>
 										</div>
-										<div class="result-short-view">
-											<div class="result-short">
-												<p>Showing 1-9 of 18 results </p>
-												<div class="result-short-selection">
-													<select>
-														<option>Default sorting</option>
-														<option>Sort by popularity</option>
-														<option>Sort by average rating</option>
-														<option>Sort by newness</option>
-														<option>Sort by price: low to high</option>
-														<option>Sort by price: high to low</option> 
-													</select>
-													<i class="fa fa-sort-alpha-asc"></i>
-												</div>
-											</div>
-											<div class="view-mode">
-												<a href="shop.html" class="active"><i class="fa fa-th-large"></i></a>
-												<a href="single-shop.html"><i class="fa fa-th-list"></i></a>
-											</div>
-										</div>
+									</div>
+									<!-- Nav tabs -->
+									<div class="single-tab-img">
+										<ul class="nav nav-tabs" role="tablist">
+											<li role="presentation" class="active"><a href="#img-one" role="tab" data-toggle="tab"><img src="img/single-product/s1.jpg" alt="tab-img"></a></li>
+											<li role="presentation"><a href="#img-two" role="tab" data-toggle="tab"><img src="img/single-product/s2.jpg" alt="tab-img"></a></li>
+											<li role="presentation" class="tab-last-li"><a href="#img-three" role="tab" data-toggle="tab"><img src="img/single-product/s3.jpg" alt="tab-img"></a></li>
+										</ul>
 									</div>
 								</div>
 							</div>
-							<div class="row">
-								<%for(int i=0;i<productList.size();i++){%>
-								<%Product product = productList.get(i); %>
-								<!-- 상품 박스 begin -->
-								<div class="col-md-4 col-sm-6">
-									<div class="single-item-area">
-										<div class="single-item">
-											<div class="product-item-img">
-												<a href="javascript:goDetail(<%=product.getProduct_id()%>)" >
-													<img class="primary-img" src="/data/<%=product.getFilename() %>" alt="item">
-													<img class="secondary-img" src="img/shop/item-2.jpg" alt="item">
-												</a>
-												<div class="product-item-action">
-													<a href="#"><i class="fa fa-external-link"></i></a>
-													<a href="#"><i class="fa fa-shopping-cart"></i></a>
-												</div>
-											</div>
-											<div class="single-item-content" >
-												<h2><a href="#"><%=product.getProduct_name() %></a></h2>
-												<div class="best-product-rating">
-													<a href="#"><i class="fa fa-star"></i></a>
-													<a href="#"><i class="fa fa-star"></i></a>
-													<a href="#"><i class="fa fa-star"></i></a>
-													<a href="#"><i class="fa fa-star"></i></a>
-													<a href="#"><i class="fa fa-star"></i></a>
-												</div>
-												<h3><%=product.getPrice() %></h3>
-											</div>
+							<div class="col-md-7 col-sm-7">
+								<div class="product-tab-content">
+									<div class="product-tab-header">
+										<h1><%=product.getProduct_name() %></h1>
+										<div class="best-product-rating">
+											<a href="#"><i class="fa fa-star"></i></a>
+											<a href="#"><i class="fa fa-star"></i></a>
+											<a href="#"><i class="fa fa-star"></i></a>
+											<a href="#"><i class="fa fa-star"></i></a>
+											<a href="#"><i class="fa fa-star"></i></a>
+											<p>(3 costomar review)</p>
 										</div>
-										<div class="item-action-button fix">
-											<a href="#">Add to Cart</a>
-											<div class="item-action-icon">
-												<a href="#"><i class="fa fa-heart"></i></a>
-												<a href="#"><i class="fa fa-signal"></i></a>
-												<a href="#"><i class="fa fa-search"></i></a>
-											</div>
-										</div>
+										<h3><%=product.getPrice() %> 원</h3>
 									</div>
+									<div class="product-item-code">
+										<p>BRAND  :   <%=product.getBrand() %></p>
+									</div>
+									<div class="product-item-details">
+										<p>Nulla quis lorem ut libero malesuada feugiat. Donec sollicitudin molestie malesuada. Mauris. </p>
+									</div>
+									<div class="size-chart">
+										<p>Size Chart: <i class="fa fa-plus"></i></p>
+										<!--
+										<select name="" id="">
+											<option value="">Size Chart: <i class="fa fa-plus"></i></option>
+											<option value="">Lg</option>
+											<option value="">Xs</option>
+											<option value="">Xs</option>
+										</select>
+										-->
+									</div>
+									<div class="available-option">
+										<h2>Available Options:</h2>
+										<div class="color-option fix">
+											<p>Color:</p>
+											<a href="#" class="color-1"></a>
+											<a href="#" class="color-2"></a>
+											<a href="#" class="color-3"></a>
+											<a href="#" class="color-4"></a>
+											<a href="#" class="color-5"></a>
+											<a href="#" class="color-6"></a>
+										</div>
+										<%
+											String[] size = product.getPsize().split(",");
+										%>
+										<div class="size-option fix">
+											<p>Size:</p>
+											<select>
+												<option value="Choose an option">Choose an option</option>
+												<%for(int i=0;i<size.length;i++){ %>
+												<option value="<%=size[i] %>"><%=size[i] %></option>
+												<%} %>
+												
+											</select>
+										</div>
+										<div class="wishlist-icon">
+											<div class="single-wishlist">
+												<a href="#"><i class="fa fa-heart"></i></a>
+												<p>wishlist</p>
+											</div>
+											<div class="single-wishlist">
+												<a href="#"><i class="fa fa-signal"></i></a>
+												<p>Compare</p>
+											</div>
+										</div>
+									</div> 
 								</div>
-								<!-- 상품 박스 end -->
-								<%} %>
 							</div>
 						</div>
-						<div class="shop-pagination floatright">
-							<ul class="pagination">
-								<li><a href="#"><i class="fa fa-angle-left"></i></a></li>
-								<li><a href="#">1</a></li>
-								<li><a href="#">2</a></li>
-								<li><a href="#">3</a></li>
-								<li><a href="#">4</a></li>
-								<li><a href="#">5</a></li>
-								<li><a href="#"><i class="fa fa-angle-right"></i></a></li>
-							</ul>
+						<div class="row">
+							<div class="col-md-12">
+								<div class="description-tab">
+								<!-- Nav tabs -->
+									<ul class="nav nav-tabs" role="tablist">
+										<li role="presentation" class="active"><a href="#description" role="tab" data-toggle="tab">Description</a></li>
+										<li role="presentation"><a href="#information" role="tab" data-toggle="tab">Addisonal information</a></li>
+										<li role="presentation"><a href="#reviews" role="tab" data-toggle="tab">Reviews (3)</a></li>
+									</ul>
+									  <!-- Tab panes -->
+									<div class="tab-content">
+										<div role="tabpanel" class="tab-pane active" id="description">
+											<%=product.getContent() %>
+										</div>
+										<div role="tabpanel" class="tab-pane" id="information">
+											<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus.</p>
+
+											<p>Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. </p>
+										</div>
+										<div role="tabpanel" class="tab-pane" id="reviews">
+											<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. </p>
+
+											<p>Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim.</p>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-12">
+								<div class="single-product-slider similar-product">
+									<div class="product-items">
+										<h2 class="product-header">Similar PRODUCTS</h2>
+										<div class="row">
+											<div id="singleproduct-slider" class="owl-carousel">
+												<div class="col-md-4">
+													<div class="single-product">
+														<div class="single-product-img">
+															<a href="#">
+																<img class="primary-img" src="img/product/single-product-1.jpg" alt="product">
+																<img class="secondary-img" src="img/product/kids-1.jpg" alt="product">
+															</a>
+															<div class="single-product-action">
+																<a href="#"><i class="fa fa-external-link"></i></a>
+																<a href="#"><i class="fa fa-shopping-cart"></i></a>
+															</div>
+														</div>
+														<div class="single-product-content">
+															<div class="product-content-left">
+																<h2><a href="#">EXCLUSIVE STYLE</a></h2>
+																<p>Jacket’s</p>
+															</div>
+															<div class="product-content-right">
+																<h3>$27.00</h3>
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="col-md-4">
+													<div class="single-product">
+														<div class="single-product-img">
+															<a href="#">
+																<img class="primary-img" src="img/product/kids-2.jpg" alt="product">
+																<img class="secondary-img" src="img/product/single-product-2.jpg" alt="product">
+															</a>
+															<div class="single-product-action">
+																<a href="#"><i class="fa fa-external-link"></i></a>
+																<a href="#"><i class="fa fa-shopping-cart"></i></a>
+															</div>
+														</div>
+														<div class="single-product-content">
+															<div class="product-content-left">
+																<h2><a href="#">EXCLUSIVE STYLE</a></h2>
+																<p>Jacket’s</p>
+															</div>
+															<div class="product-content-right">
+																<h3>$27.00</h3>
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="col-md-4">
+													<div class="single-product">
+														<div class="single-product-img">
+															<a href="#">
+																<img class="primary-img" src="img/product/kids-4.jpg" alt="product">
+																<img class="secondary-img" src="img/product/men-2.jpg" alt="product">
+															</a>
+															<div class="single-product-action">
+																<a href="#"><i class="fa fa-external-link"></i></a>
+																<a href="#"><i class="fa fa-shopping-cart"></i></a>
+															</div>
+														</div>
+														<div class="single-product-content">
+															<div class="product-content-left">
+																<h2><a href="#">EXCLUSIVE STYLE</a></h2>
+																<p>Jacket’s</p>
+															</div>
+															<div class="product-content-right">
+																<h3>$27.00</h3>
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="col-md-4">
+													<div class="single-product">
+														<div class="single-product-img">
+															<a href="#">
+																<img class="primary-img" src="img/product/single-product-1.jpg" alt="product">
+																<img class="secondary-img" src="img/product/kids-1.jpg" alt="product">
+															</a>
+															<div class="single-product-action">
+																<a href="#"><i class="fa fa-external-link"></i></a>
+																<a href="#"><i class="fa fa-shopping-cart"></i></a>
+															</div>
+														</div>
+														<div class="single-product-content">
+															<div class="product-content-left">
+																<h2><a href="#">EXCLUSIVE STYLE</a></h2>
+																<p>Jacket’s</p>
+															</div>
+															<div class="product-content-right">
+																<h3>$27.00</h3>
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="col-md-4">
+													<div class="single-product">
+														<div class="single-product-img">
+															<a href="#">
+																<img class="primary-img" src="img/product/single-product-2.jpg" alt="product">
+																<img class="secondary-img" src="img/product/women-2.jpg" alt="product">
+															</a>
+															<div class="single-product-action">
+																<a href="#"><i class="fa fa-external-link"></i></a>
+																<a href="#"><i class="fa fa-shopping-cart"></i></a>
+															</div>
+														</div>
+														<div class="single-product-content">
+															<div class="product-content-left">
+																<h2><a href="#">EXCLUSIVE STYLE</a></h2>
+																<p>Jacket’s</p>
+															</div>
+															<div class="product-content-right">
+																<h3>$27.00</h3>
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="col-md-4">
+													<div class="single-product">
+														<div class="single-product-img">
+															<a href="#">
+																<img class="primary-img" src="img/product/single-product-3.jpg" alt="product">
+																<img class="secondary-img" src="img/product/men-2.jpg" alt="product">
+															</a>
+															<div class="single-product-action">
+																<a href="#"><i class="fa fa-external-link"></i></a>
+																<a href="#"><i class="fa fa-shopping-cart"></i></a>
+															</div>
+														</div>
+														<div class="single-product-content">
+															<div class="product-content-left">
+																<h2><a href="#">EXCLUSIVE STYLE</a></h2>
+																<p>Jacket’s</p>
+															</div>
+															<div class="product-content-right">
+																<h3>$27.00</h3>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
