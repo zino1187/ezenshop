@@ -91,6 +91,32 @@
         <link rel="stylesheet" href="css/responsive.css">
         
         <script src="js/vendor/modernizr-2.8.3.min.js"></script>
+        <script>
+        $(function(){
+        });
+        
+        function addCart(){
+        	//장바구니 담기를 누르면, db에 넣지않고 메모리에 저장하겠다!!
+			$.ajax({
+				url:"addcart.jsp",
+				type:"post",
+				data:{
+					product_id:<%=product.getProduct_id()%>,
+					product_name:"<%=product.getProduct_name()%>",
+					brand:"<%=product.getBrand()%>",
+					price:<%=product.getPrice()%>,
+					color:$("#color").val(),
+					psize:$("#psize").val(),
+					filename:"<%=product.getFilename()%>",
+					content:"<%=product.getContent()%>",
+					ea:$("#ea").val()
+				},
+				success:function(msg){
+					alert(msg);					
+				}
+			});				        	
+        }        
+        </script>
     </head>
     <body class="">
         <!--[if lt IE 8]>
@@ -388,10 +414,10 @@
 						<div class="row">
 							<div class="col-md-5 col-sm-5">
 								<div class="product-item-tab">
-									<!-- Tab panes -->
+									<!-- Tab panes 상품 상세 사진 나올곳 -->
 									<div class="single-tab-content">
 										<div class="tab-content">
-											<div role="tabpanel" class="tab-pane active" id="img-one"><img src="img/single-product/single-product-1.jpg" alt="tab-img"></div>
+											<div role="tabpanel" class="tab-pane active" id="img-one"><img src="/data/<%=product.getFilename() %>" alt="tab-img"></div>
 											<div role="tabpanel" class="tab-pane" id="img-two"><img src="img/single-product/single-product-2.jpg" alt="tab-img"></div>
 											<div role="tabpanel" class="tab-pane" id="img-three"><img src="img/single-product/single-product-1.jpg" alt="tab-img"></div>
 										</div>
@@ -427,44 +453,37 @@
 										<p>Nulla quis lorem ut libero malesuada feugiat. Donec sollicitudin molestie malesuada. Mauris. </p>
 									</div>
 									<div class="size-chart">
-										<p>Size Chart: <i class="fa fa-plus"></i></p>
-										<!--
-										<select name="" id="">
-											<option value="">Size Chart: <i class="fa fa-plus"></i></option>
-											<option value="">Lg</option>
-											<option value="">Xs</option>
-											<option value="">Xs</option>
-										</select>
-										-->
+										<p>구매 수량: <i class="fa fa-plus"></i>
+										<input id="ea" name="ea" type="text" value="1" size="5"/>
 									</div>
 									<div class="available-option">
 										<h2>Available Options:</h2>
-										<div class="color-option fix">
+										<div class="size-option fix">
 											<p>Color:</p>
-											<a href="#" class="color-1"></a>
-											<a href="#" class="color-2"></a>
-											<a href="#" class="color-3"></a>
-											<a href="#" class="color-4"></a>
-											<a href="#" class="color-5"></a>
-											<a href="#" class="color-6"></a>
+											<%String[] color = product.getColor().split(","); %>
+											<select id="color">
+												<option value="Choose an option">Choose an option</option>
+												<%for(int i=0;i<color.length;i++){ %>
+												<option value="<%=color[i] %>"><%=color[i] %></option>
+												<%} %>
+											</select>
 										</div>
 										<%
 											String[] size = product.getPsize().split(",");
 										%>
 										<div class="size-option fix">
 											<p>Size:</p>
-											<select>
+											<select id="psize">
 												<option value="Choose an option">Choose an option</option>
 												<%for(int i=0;i<size.length;i++){ %>
 												<option value="<%=size[i] %>"><%=size[i] %></option>
 												<%} %>
-												
 											</select>
 										</div>
 										<div class="wishlist-icon">
 											<div class="single-wishlist">
-												<a href="#"><i class="fa fa-heart"></i></a>
-												<p>wishlist</p>
+												<a href="javascript:addCart()"><i class="fa fa-heart"></i></a>
+												<p>cart</p>
 											</div>
 											<div class="single-wishlist">
 												<a href="#"><i class="fa fa-signal"></i></a>
