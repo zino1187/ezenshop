@@ -25,27 +25,61 @@
 	System.out.println("ea="+product.getEa());
 	*/
 	List<ProductForm> cart=null;
+
 	if(session.getAttribute("cart")==null){//새로 만들기!!
-		cart = new ArrayList();	
+		cart = new ArrayList();
+		session.setAttribute("cart", cart);//넣은 적이 없다면 넣어둔다
 	}else{//이미 있는거 꺼내먹기!!
 		cart = (List)session.getAttribute("cart");	
 	}
 	
-	//이미 같은 상품이 장바구니에 있다면, 갯수의 증가만 있을뿐이다!!
-	for(int i=0;i<cart.size();i++){
-		ProductForm form=cart.get(i);
+	if(cart.size()<1){//장바구니 최초 이용이면, 무조건 상품 하나 등록함!!
+		cart.add(product);
+	}else{
+		int count=0;//장바구니에 동일 상품이 있는지 체크하는 용도...
 		
-		//이미 담겨있던 form과 지금 막 담으려고 하는 product를 비교하여..처리..
-		if(form.getProduct_id() == product.getProduct_id()){//중복상품 발견!!
-			System.out.println(product.getProduct_id()+" 중복 발견됨!!");
-		}else{
-			//중복되지 않았으므로, 장바구니에 상품을 추가하자!!
+		//이미 같은 상품이 장바구니에 있다면, 갯수의 증가만 있을뿐이다!!
+		for(int i=0;i<cart.size();i++){
+			ProductForm form=cart.get(i);
+			
+			//이미 담겨있던 form과 지금 막 담으려고 하는 product를 비교하여..처리..
+			if(form.getProduct_id() == product.getProduct_id()){//중복상품 발견!!
+				System.out.println(product.getProduct_id()+" 중복 발견됨!!");
+				count++;	
+				//ea +1 처리..
+				int ea = form.getEa();
+				form.setEa(ea+1);
+			}
+		}
+		//for문이 모두 수행된 후 결론짓다!!(추가(0이면)할지,  말지(1이상이면))
+		if(count<1){
 			cart.add(product);
-			System.out.println(product.getProduct_id()+" 추가됨");
 		}
 	}
-	System.out.println("현재까지 장바구니에 들어있는 상품수는 "+cart.size());
+	
+	System.out.println("최종결과");
+	for(int i=0;i<cart.size();i++){
+		ProductForm form=cart.get(i);
+		int product_id=form.getProduct_id();
+		int ea=form.getEa();
+		
+		System.out.println("상품 product_id : "+product_id + ", ea:"+ea);
+	}
+	
 %>
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

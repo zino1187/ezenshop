@@ -392,6 +392,49 @@ create  table  product(
 --               접속계정이 관리자계정 dba_users...
  
 
+CREATE  TABLE customer(
+	customer_id  NUMBER  PRIMARY KEY 
+	, name varchar2(40)
+	, phone varchar2(20)
+	, email varchar2(50)
+	, address varchar2(100)
+);
+
+CREATE  SEQUENCE  seq_customer
+INCREMENT BY 1
+START WITH 1;
+
+--주문 요약
+CREATE TABLE orderlist(
+	orderlist_id NUMBER PRIMARY KEY 
+	, customer_id NUMBER 
+	, total_buy NUMBER DEFAULT 0 
+	, total_pay NUMBER DEFAULT 0 
+	, paymethod  varchar2(20)
+	, orderdate  DATE  DEFAULT sysdate
+);
+--주문상세 
+CREATE TABLE orderdetail(
+	  orderdetail_id NUMBER PRIMARY KEY
+	, orderlist_id NUMBER 
+	, product_id NUMBER 
+	, ea NUMBER DEFAULT 0 
+	, psize  varchar2(20)
+	, color varchar2(20)
+);
+CREATE SEQUENCE seq_orderlist
+INCREMENT BY 1
+START WITH 1;
+
+CREATE SEQUENCE seq_orderdetail
+INCREMENT BY 1
+START WITH 1;
+
+
+
+
+
+
 
 
 

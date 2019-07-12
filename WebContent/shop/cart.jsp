@@ -1,4 +1,10 @@
+<%@page import="util.StringUtil"%>
+<%@page import="product.domain.ProductForm"%>
+<%@page import="java.util.List"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
+<%
+	List<ProductForm> cartList=(List)session.getAttribute("cart");
+%>
 <!DOCTYPE html>
 <!--[if IE]><![endif]-->
 <!--[if lt IE 7 ]> <html lang="en" class="ie6">    <![endif]-->
@@ -82,6 +88,28 @@
         <link rel="stylesheet" href="css/responsive.css">
         
         <script src="js/vendor/modernizr-2.8.3.min.js"></script>
+        <script>
+        function delCart(product_id){
+        	//삭제를 전담하는 서버측의 jsp에게 요청하자!!
+        	//product_id를 전송해야 한다..
+        	if(confirm(product_id+"상품을 삭제 하실래요?")){
+				location.href="delcart.jsp?product_id="+product_id;        		
+        	}
+        }
+        function updateCart(){
+        	if(confirm("입력한 수량으로 수정하시겠어요?")){
+				//post 로 전송 ?? 뭘?? product_id 여러개~~~       
+				form1.method="post";
+				form1.action="update_cart.jsp";
+				form1.submit();
+        	}       	
+        }
+        
+        //주문페이지 요청하기!!
+        function checkout(){
+        	location.href="checkout.jsp";
+        }
+        </script>
       </head>
     <body class="">
         <!--[if lt IE 8]>
@@ -339,9 +367,17 @@
 									</tr>
 								</thead>
 								<tbody>
+									<form name="form1">
+									<%if(cartList.size()==0){ //장바구니에 데이터가 없다면...%>
+									<tr>
+										<td colspan="7" align="center">장바구니가 비어있네요</td>
+									</tr>
+									<%}else{ %>
+									<%for(ProductForm product : cartList){ %>
+									<input type="hidden" name="product_id" value="<%=product.getProduct_id()%>"/>
 									<tr>
 										<td class="th-product">
-											<a href="#"><img src="img/cart/cart-1.jpg" alt="cart"></a>
+											<a href="#"><img src="/data/<%=product.getFilename() %>" alt="cart"></a>
 										</td>
 										<td class="th-details">
 											<h2><a href="#">Baby New Style Jackets</a></h2>
@@ -352,71 +388,26 @@
 												<a href="#"><i class="fa fa-star-o"></i></a>
 												<a href="#"><i class="fa fa-star-o"></i></a>
 											</div>
-											<p>Product Color : Red</p>
-											<p>Product Code  : 2201 RS</p>
+											<p>Product Color : <%=product.getColor() %></p>
+											<p>Product Size  : <%=product.getPsize() %></p>
 										</td>
 										<td class="th-edit"><a href="#">Edit</a></td>
 										<td class="th-qty">
-											<input type="number" min="1" placeholder="1">
+											<input type="number" name="ea" value="<%=product.getEa()%>">
 										</td>
-										<td class="th-price">$225.00</td>
-										<td class="th-total">$450.00</td>
-										<td class="th-delate"><a href="#"><i class="fa fa-trash"></i></a></td>
+										<td class="th-price"><%=StringUtil.getCurrency(product.getPrice()) %></td>
+										<td class="th-total"><%=StringUtil.getCurrency(product.getEa()*product.getPrice()) %> 원</td>
+										<td class="th-delate"><a href="javascript:delCart(<%=product.getProduct_id()%>)"><i class="fa fa-trash"></i></a></td>
 									</tr>
-									<tr>
-										<td class="th-product">
-											<a href="#"><img src="img/cart/cart-2.jpg" alt="cart"></a>
-										</td>
-										<td class="th-details">
-											<h2><a href="#">Baby New Style Jackets</a></h2>
-											<div class="best-product-rating">
-												<a href="#"><i class="fa fa-star"></i></a>
-												<a href="#"><i class="fa fa-star"></i></a>
-												<a href="#"><i class="fa fa-star"></i></a>
-												<a href="#"><i class="fa fa-star-o"></i></a>
-												<a href="#"><i class="fa fa-star-o"></i></a>
-											</div>
-											<p>Product Color : Red</p>
-											<p>Product Code  : 2201 RS</p>
-										</td>
-										<td class="th-edit"><a href="#">Edit</a></td>
-										<td class="th-qty">
-											<input type="number" min="1" placeholder="1">
-										</td>
-										<td class="th-price">$225.00</td>
-										<td class="th-total">$450.00</td>
-										<td class="th-delate"><a href="#"><i class="fa fa-trash"></i></a></td>
-									</tr>
-									<tr>
-										<td class="th-product">
-											<a href="#"><img src="img/cart/cart-3.jpg" alt="cart"></a>
-										</td>
-										<td class="th-details">
-											<h2><a href="#">Baby New Style Jackets</a></h2>
-											<div class="best-product-rating">
-												<a href="#"><i class="fa fa-star"></i></a>
-												<a href="#"><i class="fa fa-star"></i></a>
-												<a href="#"><i class="fa fa-star"></i></a>
-												<a href="#"><i class="fa fa-star-o"></i></a>
-												<a href="#"><i class="fa fa-star-o"></i></a>
-											</div>
-											<p>Product Color : Red</p>
-											<p>Product Code  : 2201 RS</p>
-										</td>
-										<td class="th-edit"><a href="#">Edit</a></td>
-										<td class="th-qty">
-											<input type="number" min="1" placeholder="1">
-										</td>
-										<td class="th-price">$225.00</td>
-										<td class="th-total">$450.00</td>
-										<td class="th-delate"><a href="#"><i class="fa fa-trash"></i></a></td>
-									</tr>
+									<%}//for%>
+									<%} //else%>
+									</form>
 								</tbody>
 							</table>
 						</div>
 						<div class="cart-button">
 							<button type="button" class="btn">Continue Shopping</button>
-							<button type="button" class="btn floatright">Update Cart</button>
+							<button type="button" class="btn floatright" onClick="updateCart()">Update Cart</button>
 						</div>
 					</div>
 				</div>
@@ -469,7 +460,7 @@
 											<p>$2.010.00</p>
 										</div>
 									</div>
-									<button type="button" class="btn">Proceed to Checkout</button>
+									<button type="button" class="btn" onClick="checkout()">Proceed to Checkout</button>
 								</div>
 							</div>
 						</div>

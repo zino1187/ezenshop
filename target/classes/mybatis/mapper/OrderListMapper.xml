@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="OrderList">
+	<insert id="insert" parameterType="OrderList">
+		insert into orderlist(orderlist_id,customer_id,total_buy,total_pay,paymethod)
+		values(seq_orderlist.nextval,#{customer_id},#{total_buy},#{total_pay},#{paymethod})
+		
+		<selectKey keyProperty="orderlist_id" resultType="int" order="AFTER">
+			select seq_orderlist.currval from dual
+		</selectKey>		
+	</insert>
+		
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

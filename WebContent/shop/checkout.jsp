@@ -1,3 +1,10 @@
+<%@page import="util.StringUtil"%>
+<%@page import="product.domain.ProductForm"%>
+<%@page import="java.util.List"%>
+<%@ page contentType="text/html; charset=UTF-8"%>
+<%
+	List<ProductForm> cartList=(List)session.getAttribute("cart");
+%>
 <!DOCTYPE html>
 <!--[if IE]><![endif]-->
 <!--[if lt IE 7 ]> <html lang="en" class="ie6">    <![endif]-->
@@ -81,6 +88,13 @@
         <link rel="stylesheet" href="css/responsive.css">
         
         <script src="js/vendor/modernizr-2.8.3.min.js"></script>
+        <script>
+        function requestOrder(){
+        	form1.method="post";
+			form1.action="order.jsp";
+			form1.submit();
+        }
+        </script>
     </head>
     <body class="">
         <!--[if lt IE 8]>
@@ -155,10 +169,8 @@
 									</ul>
 								</div>
 								<div class="header-search">
-									<form action="#">
-										<input type="text" placeholder="My Search"/>
-										<button type="button"><i class="fa fa-search"></i></button>
-									</form>
+									<input type="text" placeholder="My Search"/>
+									<button type="button"><i class="fa fa-search"></i></button>
 								</div>
 								<div class="header-chart">
 									<ul class="list-inline">
@@ -320,6 +332,7 @@
 			</div>
 		</div>
 		<!-- Checkout AREA -->
+		<form name="form1">
 		<div class="checkout-area">
 			<div class="container">
 				<div class="row">
@@ -330,44 +343,29 @@
 								<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenea ligula eget dolor. Aenean massa.</p>
 							</div>
 							<div class="checkout-form">
-								<form action="#" method="post" class="form-horizontal">
+								
 									<div class="form-group">
 										<label class="control-label col-md-3">
-											country <sup>*</sup>
+											주문자명 <sup>*</sup>
 										</label>
 										<div class="col-md-9">
-											<select>
-												<option>Sellect Country</option>
-												<option>America</option>
-												<option>Afganisthan</option>
-												<option>Bangladesh</option>
-												<option>Chin</option>
-												<option>Japna</option>
-											</select>
+											<input type="text" name="name" class="form-control">
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="control-label col-md-3">
-											First Name <sup>*</sup>
+											연락처 <sup>*</sup>
 										</label>
 										<div class="col-md-9">
-											<input type="text" class="form-control">
+											<input type="text" name="phone" class="form-control">
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="control-label col-md-3">
-											Last Name <sup>*</sup>
+											이메일 <sup>*</sup>
 										</label>
 										<div class="col-md-9">
-											<input type="text" class="form-control">
-										</div>
-									</div>
-									<div class="form-group">
-										<label class="control-label col-md-3">
-											Company Name <sup>*</sup>
-										</label>
-										<div class="col-md-9">
-											<input type="text" class="form-control">
+											<input type="text" name="email" class="form-control">
 										</div>
 									</div>
 									<div class="form-group">
@@ -375,68 +373,10 @@
 											Address <sup>*</sup>
 										</label>
 										<div class="col-md-9">
-											<input type="text" class="form-control">
+											<input type="text" name="address" class="form-control">
 										</div>
 									</div>
-									<div class="form-group">
-										<label class="control-label col-md-3">
-											
-										</label>
-										<div class="col-md-9">
-											<input type="text" class="form-control">
-										</div>
-									</div>
-									<div class="form-group">
-										<label class="control-label col-md-3">
-											Town / City <sup>*</sup>
-										</label>
-										<div class="col-md-9">
-											<input type="text" class="form-control">
-										</div>
-									</div>
-									<div class="form-group">
-										<label class="control-label col-md-3">
-											Postcode <sup>*</sup>
-										</label>
-										<div class="col-md-9">
-											<input type="text" class="form-control">
-										</div>
-									</div>
-									<div class="form-group">
-										<label class="control-label col-md-3">
-											E-mail Address <sup>*</sup>
-										</label>
-										<div class="col-md-9">
-											<input type="text" class="form-control">
-										</div>
-									</div>
-									<div class="form-group">
-										<label class="control-label col-md-3">
-											Phone <sup>*</sup>
-										</label>
-										<div class="col-md-9">
-											<input type="text" class="form-control">
-										</div>
-									</div>
-									<div class="form-group">
-										<label class="control-label col-md-12">
-											<input type="checkbox"> Create an account?
-										</label>
-									</div>
-									<div class="form-group">
-										<label class="control-label col-md-12">
-											<input type="checkbox"> Ship a billing address?
-										</label>
-									</div>
-									<div class="form-group">
-										<label class="control-label col-md-3">
-											Order Now
-										</label>
-										<div class="col-md-9">
-											<textarea rows="9"></textarea>
-										</div>
-									</div>
-								</form>
+								
 							</div>
 						</div>
 					</div>
@@ -445,70 +385,60 @@
 							<div class="checkout-head">
 								<h2>Review your Order</h2>
 							</div>
+							<%
+								int total_buy = 0; //총 구매금액 
+								int total_pay = 0; //실제 결제금액
+							%>
+							<%for(ProductForm product : cartList){ %>
 							<div class="single-review">
 								<div class="single-review-img">
-									<a href="#"><img src="img/checkout.jpg" alt="review"></a>
+									<a href="#"><img src="/data/<%=product.getFilename() %>" alt="review" style="width:100px"></a>
 								</div>
 								<div class="single-review-content fix">
-									<h2><a href="#">Lorem ipsum dolor sit</a></h2>
-									<p><span>Color :</span> Verdigris Red</p>
-									<p><span>Size :</span> L</p>
-									<h3>$150.0</h3>
+									<h2><a href="#"><%=product.getProduct_name() %></a></h2>
+									<p><span>Color :</span> <%=product.getColor() %></p>
+									<p><span>Size :</span> <%=product.getPsize() %></p>
+									<h3><%=StringUtil.getCurrency(product.getPrice()) %></h3>
 								</div>
 							</div>
-							<div class="single-review">
-								<div class="single-review-img">
-									<a href="#"><img src="img/checkout.jpg" alt="review"></a>
-								</div>
-								<div class="single-review-content fix">
-									<h2><a href="#">Lorem ipsum dolor sit</a></h2>
-									<p><span>Color :</span> Verdigris Red</p>
-									<p><span>Size :</span> L</p>
-									<h3>$150.0</h3>
-								</div>
-							</div>
-							<div class="single-review">
-								<div class="single-review-img">
-									<a href="#"><img src="img/checkout.jpg" alt="review"></a>
-								</div>
-								<div class="single-review-content fix">
-									<h2><a href="#">Lorem ipsum dolor sit</a></h2>
-									<p><span>Color :</span> Verdigris Red</p>
-									<p><span>Size :</span> L</p>
-									<h3>$150.0</h3>
-								</div>
-							</div>
+							<%
+								total_buy += (product.getPrice() * product.getEa());
+							%>
+							<%} %>
+							
 							<div class="subtotal-area">
 								<div class="subtotal-content fix">
-									<h2 class="floatleft">Subtotal</h2>
-									<h2 class="floatright">$450</h2>
+									<input type="hidden" name="total_buy" value="<%=total_buy%>">
+									<h2 class="floatleft">구매 총액</h2>
+									<h2 class="floatright"><%=StringUtil.getCurrency(total_buy) %></h2>
 								</div>
 								<div class="subtotal-content fix">
-									<h2 class="floatleft">Shipping & Handling </h2>
-									<h2 class="floatright">$15</h2>
+									<h2 class="floatleft">이벤트 할인 적용 </h2>
+									<h2 class="floatright">10,000 원</h2>
 								</div>
 								<div class="subtotal-content fix">
-									<h2 class="floatleft">Grand Total</h2>
-									<h2 class="floatright">$465</h2>
+									<input type="hidden" name="total_pay" value="<%=total_buy-10000%>">
+									<h2 class="floatleft">결제하실 금액</h2>
+									<h2 class="floatright"><%=StringUtil.getCurrency(total_buy-10000) %></h2>
 								</div>
 							</div>
 							<div class="payment-method">
 								<h2>PAYMENT METHOD</h2>
 								<div class="payment-checkbox">
-									<input type="checkbox" checked> Direct Bank Transfer
+									<input type="checkbox" name="paymethod" value="card" checked> 카드결제
 								</div>
-								<p>Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order wont be shipped until the funds have cleared in our account.</p>
 								<div class="payment-checkbox">
-									<input type="checkbox"> Chaque Payment <br>
-									<input type="checkbox"> Paypal
+									<input type="checkbox" name="paymethod" value="account"> 무통장 입금<br>
+									<input type="checkbox" name="paymethod" value="virtual"> 가상계좌
 								</div>
-								<button type="button" class="btn">Place Order</button>
+								<button type="button" class="btn" onClick="requestOrder()">Place Order</button>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
+		</form>
 		<!-- Footer AREA -->
 		<div class="footer-area">
 			<div class="footer-top">

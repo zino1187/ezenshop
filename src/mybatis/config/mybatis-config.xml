@@ -7,6 +7,9 @@
 		<typeAlias type="product.domain.TopCategory" 	alias="TopCategory"/>
 		<typeAlias type="product.domain.SubCategory" 	alias="SubCategory"/>
 		<typeAlias type="product.domain.Product" 			alias="Product"/>
+		<typeAlias type="product.domain.Customer" 		alias="Customer"/>
+		<typeAlias type="product.domain.OrderList" 		alias="OrderList"/>
+		<typeAlias type="product.domain.OrderDetail"		alias="OrderDetail"/>
 	</typeAliases>
 		
   <environments default="development">
@@ -22,6 +25,9 @@
     <mapper resource="mybatis/mapper/TopCategoryMapper.xml"/>
     <mapper resource="mybatis/mapper/SubCategoryMapper.xml"/>
     <mapper resource="mybatis/mapper/ProductMapper.xml"/>
+    <mapper resource="mybatis/mapper/CustomerMapper.xml"/>
+    <mapper resource="mybatis/mapper/OrderListMapper.xml"/>
+    <mapper resource="mybatis/mapper/OrderDetailMapper.xml"/>
   </mappers>
 </configuration>
 

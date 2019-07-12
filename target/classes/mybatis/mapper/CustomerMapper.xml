@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Customer">
+	<insert id="insert" parameterType="Customer">
+		insert into customer(customer_id,name,phone,email,address)
+		values(seq_customer.nextval, #{name},#{phone},#{email},#{address})
+		<selectKey keyProperty="customer_id" order="AFTER" resultType="int">
+			select seq_customer.currval from dual
+		</selectKey>
+	</insert>
+	
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

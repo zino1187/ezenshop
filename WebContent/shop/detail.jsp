@@ -112,7 +112,7 @@
 					ea:$("#ea").val()
 				},
 				success:function(msg){
-					alert(msg);					
+					//alert(msg);					
 				}
 			});				        	
         }        
@@ -199,7 +199,7 @@
 								<div class="header-chart">
 									<ul class="list-inline">
 										<li><a href="#"><i class="fa fa-cart-arrow-down"></i></a></li>
-										<li class="chart-li"><a href="#">My cart</a>
+										<li class="chart-li"><a href="cart.jsp">My cart</a>
 											<ul>
                                                 <li>
                                                     <div class="header-chart-dropdown">
